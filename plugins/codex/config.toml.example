@@ -1,0 +1,5 @@
+[mcp_servers.agent_channel]
+command = "agent-channel"
+args = ["mcp"]
+env_vars = ["AGENT_CHANNEL_STATE_DIR", "AGENT_CHANNEL_CREDENTIALS_FILE", "AGENT_CHANNEL_ID", "AGENT_CHANNEL_TOKEN"]
+tool_timeout_sec = 75
