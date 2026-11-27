@@ -1,13 +1,15 @@
 use serde_json::{json, Value};
 use std::fs;
 use std::io::{BufRead, BufReader, Write};
-use std::os::unix::net::UnixStream;
+use std::os::unix::{fs::DirBuilderExt, net::UnixStream};
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
+use std::sync::atomic::{AtomicU32, Ordering};
 use std::sync::mpsc;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 const BIN: &str = env!("CARGO_BIN_EXE_agent-channel");
+static FIXTURE_ID: AtomicU32 = AtomicU32::new(0);
 
 fn token(id: &str) -> String {
     id.repeat(32)
@@ -24,8 +26,12 @@ impl Fixture {
             .duration_since(UNIX_EPOCH)
             .unwrap()
             .as_nanos();
-        let root = std::env::temp_dir().join(format!("ach-{stamp}"));
-        fs::create_dir(&root).unwrap();
+        let sequence = FIXTURE_ID.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "ach-{:x}-{stamp:x}-{sequence:x}",
+            std::process::id()
+        ));
+        fs::DirBuilder::new().mode(0o700).create(&root).unwrap();
         fs::write(
             root.join("roster"),
             json!({
