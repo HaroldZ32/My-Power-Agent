@@ -1,0 +1,14 @@
+- insert:
+    - id: mcp-agent-channel
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: agent_channel
+        transport: stdio
+        command: !!js 'process.env.AGENT_CHANNEL_BIN || "agent-channel"'
+        args:
+          - mcp
+        env:
+          AGENT_CHANNEL_STATE_DIR: !!js 'process.env.AGENT_CHANNEL_STATE_DIR || ""'
+          AGENT_CHANNEL_CREDENTIALS_FILE: !!js 'process.env.AGENT_CHANNEL_CREDENTIALS_FILE || ""'
+        startupTimeoutMs: 10000
+        toolCallTimeoutMs: 75000

@@ -1,0 +1,7 @@
+{
+  "name": "agent-channel",
+  "version": "0.1.0",
+  "description": "Send, receive, and exchange meeting summaries with other local agents.",
+  "mcpServers": "./.mcp.json",
+  "requires_local_executor": true
+}

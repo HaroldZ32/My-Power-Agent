@@ -1,0 +1,12 @@
+{
+  "name": "my-power-agent",
+  "interface": { "displayName": "My Power Agent" },
+  "plugins": [
+    {
+      "name": "agent-channel",
+      "source": { "source": "local", "path": "./plugins/codex" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}
